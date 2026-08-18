@@ -7,4 +7,4 @@ For performing the task, the robot uses **Cartesian** trajectories except for th
 📄 A full technical report (design, evaluation, results) is available in xxxx
 
 -------------------------------------------------------------------------------
-#🎥 Demo videos
+# 🎥 Demo videos
