@@ -4,4 +4,7 @@ Using the camera, the robot identifies the poses of 3D objects through segmentat
 
 For performing the task, the robot uses **Cartesian** trajectories except for the obstacle avoidance movement, which uses an **RRT** planning + a safety distance.
 
-📄 A full technical report (design, evaluation, results) is available in 
+📄 A full technical report (design, evaluation, results) is available in xxxx
+
+-------------------------------------------------------------------------------
+#🎥 Demo videos
