@@ -7,12 +7,12 @@
 
 extern rclcpp::Node::SharedPtr g_node;
 
-void pick_and_place(moveit_cpp::MoveItCpp           &moveit_cpp_inst,
-                    moveit_cpp::PlanningComponent   &arm,
+void pick_and_place(moveit_cpp::MoveItCpp                          &moveit_cpp_inst,
+                    moveit_cpp::PlanningComponent                  &arm,
                     moveit::planning_interface::MoveGroupInterface &mgi,
-                    const geometry_msgs::msg::Point &cube,
-                    const geometry_msgs::msg::Point &goal,
-                    const geometry_msgs::msg::Point &obstacle);
+                    const geometry_msgs::msg::Point                &cube,
+                    const geometry_msgs::msg::Point                &goal,
+                    const geometry_msgs::msg::Point                &obstacle);
 
 int main(int argc, char **argv)
 {
@@ -28,13 +28,24 @@ int main(int argc, char **argv)
     RCLCPP_INFO(node->get_logger(), "Attendo stabilizzazione sistema (10s)...");
     rclcpp::sleep_for(std::chrono::seconds(10));
 
+    // MoveItCpp
     RCLCPP_INFO(node->get_logger(), "Inizializzo MoveItCpp...");
     moveit_cpp::MoveItCpp::Options moveit_options(node);
     auto moveit_cpp = std::make_shared<moveit_cpp::MoveItCpp>(node, moveit_options);
     moveit_cpp->getPlanningSceneMonitor()->requestPlanningSceneState();
     moveit_cpp::PlanningComponent arm("fr3_arm", moveit_cpp);
-    moveit::planning_interface::MoveGroupInterface mgi(node, "fr3_arm");
     RCLCPP_INFO(node->get_logger(), "MoveItCpp OK");
+
+    // MoveGroupInterface su nodo separato per evitare deadlock
+    auto mgi_node = rclcpp::Node::make_shared("mgi_node");
+    std::thread mgi_spin([&mgi_node]() { rclcpp::spin(mgi_node); });
+    moveit::planning_interface::MoveGroupInterface mgi(mgi_node, "fr3_arm");
+    mgi.setEndEffectorLink("fr3_hand_tcp");
+    mgi.setPoseReferenceFrame("world");
+    mgi.setPlanningTime(5.0);
+    mgi.setMaxVelocityScalingFactor(0.4);
+    mgi.setMaxAccelerationScalingFactor(0.15);
+    RCLCPP_INFO(node->get_logger(), "MoveGroupInterface OK");
 
     RCLCPP_INFO(node->get_logger(),
                 "Aspetto che la perception individui tutti e 3 gli oggetti...");
@@ -55,6 +66,7 @@ int main(int argc, char **argv)
     }
 
     rclcpp::shutdown();
+    mgi_spin.join();
     spin_thread.join();
     return 0;
 }
