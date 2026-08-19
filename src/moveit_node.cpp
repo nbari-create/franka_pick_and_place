@@ -38,10 +38,10 @@ void set_gripper(double position, double duration_sec = 1.5)
 }
 
 // ── OBSTACLE ──────────────────────────────────────────────────────────────────
-void add_obstacle_to_scene(const geometry_msgs::msg::Point &obs,
-                            double size_x = 0.08,
-                            double size_y = 0.08,
-                            double size_z = 0.15)
+void add_obstacle_to_scene(const geometry_msgs::msg::Point &obs_center,
+                            double size_x = 0.42,
+                            double size_y = 0.12,
+                            double size_z = 0.27)
 {
     moveit::planning_interface::PlanningSceneInterface psi;
     moveit_msgs::msg::CollisionObject co;
@@ -52,13 +52,13 @@ void add_obstacle_to_scene(const geometry_msgs::msg::Point &obs,
     box.type       = shape_msgs::msg::SolidPrimitive::BOX;
     box.dimensions = {size_x, size_y, size_z};
     geometry_msgs::msg::Pose pose;
-    pose.position      = obs;
+    pose.position      = obs_center;
     pose.orientation.w = 1.0;
     co.primitives.push_back(box);
     co.primitive_poses.push_back(pose);
     psi.applyCollisionObject(co);
     RCLCPP_INFO(g_node->get_logger(),
-                "Ostacolo aggiunto @ (%.2f, %.2f, %.2f)", obs.x, obs.y, obs.z);
+                "Ostacolo aggiunto @ (%.2f, %.2f, %.2f)", obs_center.x, obs_center.y, obs_center.z);
     rclcpp::sleep_for(std::chrono::milliseconds(500));
 }
 
@@ -107,15 +107,27 @@ bool move_to(moveit_cpp::MoveItCpp        &moveit_cpp_inst,
 bool move_cartesian(moveit::planning_interface::MoveGroupInterface &mgi,
                     const std::vector<geometry_msgs::msg::Pose>   &waypoints)
 {
+    // Forza la sincronizzazione dello stato prima di calcolare il percorso —
+    // sotto carico CPU la cache interna può essere stale.
+    mgi.setStartStateToCurrentState();
+    rclcpp::sleep_for(std::chrono::milliseconds(200));
+
     moveit_msgs::msg::RobotTrajectory trajectory;
     const double eef_step    = 0.003;
     const double jump_thresh = 0.0;
     double fraction = mgi.computeCartesianPath(waypoints, eef_step,
                                                jump_thresh, trajectory);
     if (fraction < 0.9) {
-        RCLCPP_ERROR(g_node->get_logger(),
-                     "Cartesiano: percorso incompleto (%.1f%%)", fraction * 100.0);
-        return false;
+        RCLCPP_WARN(g_node->get_logger(),
+                    "Cartesiano: percorso incompleto (%.1f%%), riprovo...", fraction * 100.0);
+        rclcpp::sleep_for(std::chrono::milliseconds(500));
+        mgi.setStartStateToCurrentState();
+        fraction = mgi.computeCartesianPath(waypoints, eef_step, jump_thresh, trajectory);
+        if (fraction < 0.9) {
+            RCLCPP_ERROR(g_node->get_logger(),
+                         "Cartesiano: percorso incompleto anche al secondo tentativo (%.1f%%)", fraction * 100.0);
+            return false;
+        }
     }
     moveit::planning_interface::MoveGroupInterface::Plan plan;
     plan.trajectory_ = trajectory;
@@ -149,49 +161,58 @@ void pick_and_place(moveit_cpp::MoveItCpp           &moveit_cpp_inst,
                     moveit_cpp::PlanningComponent   &arm,
                     moveit::planning_interface::MoveGroupInterface &mgi,
                     const geometry_msgs::msg::Point &cube,
-                    const geometry_msgs::msg::Point              &goal,
-                    const geometry_msgs::msg::Point              &obstacle)
+                    const geometry_msgs::msg::Point &goal,
+                    const geometry_msgs::msg::Point &obstacle)
 {
-    constexpr double HOVER      = 0.20;
-    constexpr double CUBE_HALF  = 0.03;
-    constexpr double TARGET_TOP = 0.02;
+    constexpr double HOVER = 0.20;
+
+    // La percezione misura la SUPERFICIE SUPERIORE degli oggetti, non il
+    // centro. Tutti gli oggetti poggiano esattamente a terra (bottom a z=0),
+    // quindi il centro reale è sempre metà dell'altezza superiore misurata.
+    geometry_msgs::msg::Point cube_center = cube;
+    cube_center.z = cube.z / 2.0;
+
+    geometry_msgs::msg::Point obstacle_center = obstacle;
+    obstacle_center.z = obstacle.z / 2.0;
 
     RCLCPP_INFO(g_node->get_logger(),
-        "cube=(%.3f,%.3f,%.3f) goal=(%.3f,%.3f,%.3f) obs=(%.3f,%.3f,%.3f)",
-        cube.x, cube.y, cube.z,
-        goal.x, goal.y, goal.z,
-        obstacle.x, obstacle.y, obstacle.z);
+        "cube_raw.z=%.3f -> cube_center.z=%.3f | obstacle_raw.z=%.3f -> obstacle_center.z=%.3f | goal(top)=(%.3f,%.3f,%.3f)",
+        cube.z, cube_center.z, obstacle.z, obstacle_center.z, goal.x, goal.y, goal.z);
 
-    add_obstacle_to_scene(obstacle, 0.42, 0.12, 0.27);
+    add_obstacle_to_scene(obstacle_center, 0.42, 0.12, 0.27);
 
     RCLCPP_INFO(g_node->get_logger(), "[1/9] Apertura gripper");
     set_gripper(0.04);
 
     RCLCPP_INFO(g_node->get_logger(), "[2/9] Pre-grasp sopra il cubo");
-    if (!move_to(moveit_cpp_inst, arm, cube.x, cube.y, cube.z + HOVER)) return;
+    if (!move_to(moveit_cpp_inst, arm, cube_center.x, cube_center.y, cube_center.z + HOVER)) return;
 
-    RCLCPP_INFO(g_node->get_logger(), "[3/9] Discesa cartesiana sul cubo");
-    if (!move_cartesian(mgi, cube.x, cube.y, cube.z)) return;
+    RCLCPP_INFO(g_node->get_logger(), "[3/9] Discesa cartesiana sul cubo (centro reale)");
+    if (!move_cartesian(mgi, cube_center.x, cube_center.y, cube_center.z)) return;
 
     RCLCPP_INFO(g_node->get_logger(), "[4/9] Chiusura gripper");
     set_gripper(0.017, 3.0);
     rclcpp::sleep_for(std::chrono::milliseconds(1000));
 
     RCLCPP_INFO(g_node->get_logger(), "[5/9] Sollevamento cubo (cartesiano)");
-    if (!move_cartesian(mgi, cube.x, cube.y, cube.z + HOVER)) return;
+    if (!move_cartesian(mgi, cube_center.x, cube_center.y, cube_center.z + HOVER)) return;
 
     RCLCPP_INFO(g_node->get_logger(), "[6/9] Trasporto verso goal");
+    // goal.z è già la superficie superiore della piattaforma misurata dalla
+    // percezione: il centro del cubo depositato deve stare a goal.z + metà
+    // lato del cubo (0.03) — nessuna doppia somma di "altezza piattaforma".
+    constexpr double CUBE_HALF = 0.03;
     if (!move_to(moveit_cpp_inst, arm,
-                 goal.x, goal.y, goal.z + TARGET_TOP + CUBE_HALF + HOVER)) return;
+                 goal.x, goal.y, goal.z + CUBE_HALF + HOVER)) return;
 
     RCLCPP_INFO(g_node->get_logger(), "[7/9] Deposito al goal (cartesiano)");
-    if (!move_cartesian(mgi, goal.x, goal.y, goal.z + TARGET_TOP + CUBE_HALF)) return;
+    if (!move_cartesian(mgi, goal.x, goal.y, goal.z + CUBE_HALF)) return;
 
     RCLCPP_INFO(g_node->get_logger(), "[8/9] Apertura gripper");
     set_gripper(0.04);
 
     RCLCPP_INFO(g_node->get_logger(), "[9/9] Ritiro braccio");
-    move_cartesian(mgi, goal.x, goal.y, goal.z + TARGET_TOP + CUBE_HALF + HOVER);
+    move_cartesian(mgi, goal.x, goal.y, goal.z + CUBE_HALF + HOVER);
 
     RCLCPP_INFO(g_node->get_logger(), "Missione completata!");
 }
