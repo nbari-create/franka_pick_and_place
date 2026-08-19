@@ -23,12 +23,12 @@ For performing the task, the robot uses **Cartesian** trajectories except for th
 # Structure of the code
 
 ROS2_project_franka/
-├── docker/                         # Ambienti e configurazioni Docker per il progetto
+├── docker/                         
 
-├── images/                         # Media e risorse grafiche per il README
+├── images/                        
 
-└── src/                            # Codice sorgente del workspace ROS 2
-    
+└── src/                            
+   
     ├── fake_ar_publisher/          # Pacchetto per la simulazione/pubblicazione di marker AR
     
     └── myworkcell_core/            # Pacchetto principale di controllo della cella di lavoro
