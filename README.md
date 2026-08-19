@@ -10,6 +10,16 @@ For performing the task, the robot uses **Cartesian** trajectories except for th
 
 -------------------------------------------------------------------------------
 # 🎥 Demo videos
+
+
+
+
+https://github.com/user-attachments/assets/57eb5b07-b223-4eed-95e6-ebdc5d07316f
+
+
+
+
+
 -------------------------------------------------------------------------------
 # What does this repository contain
 **movit_node.cpp** (C++): The file defines the control functions to run the full pick-and-place sequence with the robotic arm. It logs obstacles detected in MoveIt's collision scene to ensure safe trajectories and manages the gripper opening and closing through a ROS 2 action client. Finally, it switches between free kinematic planning (RRTConnect) for long-range moves and straight Cartesian movements for approaching, picking up, lifting, and accurately placing the cube.
@@ -63,3 +73,37 @@ ROS2_project_franka/
         ├── CMakeLists.txt          # Regole di compilazione CMake
        
         └── package.xml             # Dipendenze e metadati del pacchetto ROS 2
+
+
+# Run 
+       
+ RUN: ```source install/setup.bash
+ ros2 launch myworkcell_core workcell.launch.py```
+
+ # Build 
+BUILD: ```colcon build --packages-select franka_gazebo_bringup --symlink-install
+source ~/ros2_ws/install/setup.bash```
+
+# Dependencis 
+ROS 2 Humble
+
+MoveIt 2
+
+Gazebo (Ignition)
+
+The Franka FR3 simulation base environment (```franka_description```, ```franka_gazebo_bringup```, ```franka_fr3_moveit_config, controllers```). These are not part of this repository; the two packages here depend on them but do not modify them.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
