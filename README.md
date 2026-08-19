@@ -22,7 +22,7 @@ https://github.com/user-attachments/assets/57eb5b07-b223-4eed-95e6-ebdc5d07316f
 
 
 -------------------------------------------------------------------------------
-# What does this repository contain
+# Main parts of the code
 **movit_node.cpp** (C++): The file defines the control functions to run the full pick-and-place sequence with the robotic arm. It logs obstacles detected in MoveIt's collision scene to ensure safe trajectories and manages the gripper opening and closing through a ROS 2 action client. Finally, it switches between free kinematic planning (RRTConnect) for long-range moves and straight Cartesian movements for approaching, picking up, lifting, and accurately placing the cube.
 
 **perception_node.hpp** (Pyton):The node grabs RGB images and point clouds from the camera to detect a cube, an obstacle, and a target based on their color. Using HSV segmentation and TF2 transformations, it converts the 2D image centroids into 3D coordinates in the world space. Finally, it publishes these positions and monitors their stability for about a second and a half before confirming they are ready to use.
