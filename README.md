@@ -6,7 +6,8 @@ Using the camera, the robot identifies the poses of 3D objects through segmentat
 
 For performing the task, the robot uses **Cartesian** trajectories except for the obstacle avoidance movement, which uses an **RRT** planning + a safety distance.
 
-📄 A full technical report (design, evaluation, results) is available in [Ros_Project.pdf](https://github.com/user-attachments/files/31227386/Ros_Project.pdf)
+📄 A full technical report (design, evaluation, results) is available in [Ros_Project.pdf](https://github.com/user-attachments/files/31265374/Ros_Project.pdf)
+
 
 
 -------------------------------------------------------------------------------
