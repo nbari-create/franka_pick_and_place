@@ -78,8 +78,7 @@ ROS2_project_franka/
 
 # Run 
        
- RUN: ```source install/setup.bash
- ros2 launch myworkcell_core workcell.launch.py```
+ RUN: ```ros2 launch myworkcell_core workcell.launch.py```
 
  # Build 
 BUILD: ```colcon build --packages-select franka_gazebo_bringup --symlink-install
