@@ -66,12 +66,9 @@ ROS2_project_franka/
        
         │   ├── perception_node.cpp       # Elaborazione visiva: filtro HSV, estrazione PointCloud2 e trasformate TF2
        
-        │   ├── myworkcell_node.cpp       # Nodo di gestione delle chiamate ai servizi della workcell
-
-        │   └── vision_node.cpp           # Moduli ausiliari per la manipolazione di immagini e immagini di debug
-       
+        │ ├── myworkcell_node.cpp       # Nodo di gestione delle chiamate ai servizi della workcell
+        │ └── vision_node.cpp           # Moduli ausiliari per la manipolazione di immagini e immagini di debug
         ├── srv/                    # Definizioni dei servizi ROS 2 personalizzati (.srv)
-        
         ├── CMakeLists.txt          # Regole di compilazione CMake
         └── package.xml             # Dipendenze e metadati del pacchetto ROS 2
 
@@ -81,7 +78,7 @@ ROS2_project_franka/
  RUN: ```ros2 launch myworkcell_core workcell.launch.py```
 
  # Build 
-BUILD: ```colcon build --packages-select franka_gazebo_bringup --symlink-install <br> source ~/ros2_ws/install/setup.bash```
+BUILD: ```colcon build --packages-select franka_gazebo_bringup --symlink-install source ~/ros2_ws/install/setup.bash```
 
 # Dependencis 
 ROS 2 Humble
