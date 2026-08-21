@@ -36,36 +36,20 @@ https://github.com/user-attachments/assets/57eb5b07-b223-4eed-95e6-ebdc5d07316f
 
 ROS2_project_franka/
 ├── docker/                         
-
 ├── images/                        
-
 └── src/                            
-   
-    ├── fake_ar_publisher/          # Pacchetto per la simulazione/pubblicazione di marker AR
-    
+    ├── fake_ar_publisher/          # Pacchetto per la simulazione/pubblicazione di marker AR 
     └── myworkcell_core/            # Pacchetto principale di controllo della cella di lavoro
-      
         ├── config/                 # Parametri di configurazione dei moduli
-      
-        │   └── moveit_controllers.yaml   # Configurazione dei controller di traiettoria MoveIt 2
-        
+        │ └── moveit_controllers.yaml   # Configurazione dei controller di traiettoria MoveIt 2
         ├── include/myworkcell_core/
-       
-        │   └── perception_node.hpp       # Header: definizione della classe PerceptionNode, struct Object3D e soglie HSV
-        
+        │ └── perception_node.hpp       # Header: definizione della classe PerceptionNode, struct Object3D e soglie HSV
         ├── launch/                 # Script di avvio automatico
-        
-        │   └── workcell.launch.py        # Launch file per l'inizializzazione dei nodi e dell'ambiente
-       
+        │ └── workcell.launch.py        # Launch file per l'inizializzazione dei nodi e dell'ambiente
         ├── src/                    # File di codice C++
-       
-        
-        │   ├── main.cpp                  # Entry Point: sincronizzazione nodi, threading e avvio missione
-        
-        │   ├── moveit_node.cpp           # Logica Pick & Place: gestione MoveGroup, pianificazione cartesiana e gripper
-       
-        │   ├── perception_node.cpp       # Elaborazione visiva: filtro HSV, estrazione PointCloud2 e trasformate TF2
-       
+        │ ├── main.cpp                  # Entry Point: sincronizzazione nodi, threading e avvio missione 
+        │ ├── moveit_node.cpp           # Logica Pick & Place: gestione MoveGroup, pianificazione cartesiana e gripper
+        │ ├── perception_node.cpp       # Elaborazione visiva: filtro HSV, estrazione PointCloud2 e trasformate TF2
         │ ├── myworkcell_node.cpp       # Nodo di gestione delle chiamate ai servizi della workcell
         │ └── vision_node.cpp           # Moduli ausiliari per la manipolazione di immagini e immagini di debug
         ├── srv/                    # Definizioni dei servizi ROS 2 personalizzati (.srv)
