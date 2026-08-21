@@ -42,18 +42,13 @@ https://github.com/user-attachments/assets/b15bcc96-acbc-4f19-9b66-431f17fcef0a
 # Structure of the code
 ```
 franka_pick_and_place/
-
 ├── config/
-
 │   └── moveit_controllers.yaml     # Configurazione dei controller di traiettoria MoveIt 2
 ├── include/
-
 │   └── myworkcell_core/
 │       └── perception_node.hpp     # Classe PerceptionNode, struct Object3D, soglie HSV
-
 ├── launch/
 │   └── workcell.launch.py          # Avvio di simulazione, percezione e controllo in un unico comando
-
 ├── src/
 │   ├── main.cpp                    # Entry point: inizializzazione nodi, threading, avvio missione
 │   ├── moveit_node.cpp             # Logica pick & place: MoveGroup, planning cartesiano, gripper
@@ -63,7 +58,8 @@ franka_pick_and_place/
 ├── srv/                            # Definizioni dei servizi ROS 2 personalizzati (.srv)
 ├── CMakeLists.txt                  # Regole di compilazione CMake
 ├── package.xml                     # Dipendenze e metadati del pacchetto ROS 2
-└── LICENSE```
+└── LICENSE
+```
 
 
 # Run 
