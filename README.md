@@ -72,7 +72,8 @@ ROS2_project_franka/
        
         ├── srv/                    # Definizioni dei servizi ROS 2 personalizzati (.srv)
         
-        ├── CMakeLists.txt          # Regole di compilazione CMake <br>└── package.xml             # Dipendenze e metadati del pacchetto ROS 2
+        ├── CMakeLists.txt          # Regole di compilazione CMake
+        └── package.xml             # Dipendenze e metadati del pacchetto ROS 2
 
 
 # Run 
