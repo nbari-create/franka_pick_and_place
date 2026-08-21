@@ -38,28 +38,24 @@ https://github.com/user-attachments/assets/b15bcc96-acbc-4f19-9b66-431f17fcef0a
 ----------------------------------------------------------------------------------
 # Structure of the code
 
-ROS2_project_franka/
-├── docker/                         
-├── images/                        
-└── src/      
-
-    ├── fake_ar_publisher/          # Pacchetto per la simulazione/pubblicazione di marker AR 
-    └── myworkcell_core/            # Pacchetto principale di controllo della cella di lavoro
-        ├── config/                 # Parametri di configurazione dei moduli
-        │ └── moveit_controllers.yaml   # Configurazione dei controller di traiettoria MoveIt 2
-        ├── include/myworkcell_core/
-        │ └── perception_node.hpp       # Header: definizione della classe PerceptionNode, struct Object3D e soglie HSV
-        ├── launch/                 # Script di avvio automatico
-        │ └── workcell.launch.py        # Launch file per l'inizializzazione dei nodi e dell'ambiente
-        ├── src/                    # File di codice C++
-        │ ├── main.cpp                  # Entry Point: sincronizzazione nodi, threading e avvio missione 
-        │ ├── moveit_node.cpp           # Logica Pick & Place: gestione MoveGroup, pianificazione cartesiana e gripper
-        │ ├── perception_node.cpp       # Elaborazione visiva: filtro HSV, estrazione PointCloud2 e trasformate TF2
-        │ ├── myworkcell_node.cpp       # Nodo di gestione delle chiamate ai servizi della workcell
-        │ └── vision_node.cpp           # Moduli ausiliari per la manipolazione di immagini e immagini di debug
-        ├── srv/                    # Definizioni dei servizi ROS 2 personalizzati (.srv)
-        ├── CMakeLists.txt          # Regole di compilazione CMake
-        └── package.xml             # Dipendenze e metadati del pacchetto ROS 2
+franka_pick_and_place/
+├── config/
+│   └── moveit_controllers.yaml     # Configurazione dei controller di traiettoria MoveIt 2
+├── include/
+│   └── myworkcell_core/
+│       └── perception_node.hpp     # Classe PerceptionNode, struct Object3D, soglie HSV
+├── launch/
+│   └── workcell.launch.py          # Avvio di simulazione, percezione e controllo in un unico comando
+├── src/
+│   ├── main.cpp                    # Entry point: inizializzazione nodi, threading, avvio missione
+│   ├── moveit_node.cpp             # Logica pick & place: MoveGroup, planning cartesiano, gripper
+│   ├── perception_node.cpp         # Segmentazione HSV, estrazione da point cloud, trasformazioni TF2
+│   ├── myworkcell_node.cpp         # Gestione delle chiamate ai servizi ROS 2 della workcell
+│   └── vision_node.cpp             # Nodo di localizzazione (service server) esposto al task controller
+├── srv/                            # Definizioni dei servizi ROS 2 personalizzati (.srv)
+├── CMakeLists.txt                  # Regole di compilazione CMake
+├── package.xml                     # Dipendenze e metadati del pacchetto ROS 2
+└── LICENSE
 
 
 # Run 
