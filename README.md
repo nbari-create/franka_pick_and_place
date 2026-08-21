@@ -10,6 +10,11 @@ For performing the task, the robot uses Cartesian trajectories except for the ob
 # 🎥  Demo videos
 front view:
 
+
+https://github.com/user-attachments/assets/f2d006db-3a20-46bc-b3a1-ce064c6c3171
+
+
+
   
 above view:
 
