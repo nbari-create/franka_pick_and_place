@@ -39,6 +39,7 @@ https://github.com/user-attachments/assets/b15bcc96-acbc-4f19-9b66-431f17fcef0a
 # Structure of the code
 
 franka_pick_and_place/
+
 ├── config/
 │   └── moveit_controllers.yaml     # Configurazione dei controller di traiettoria MoveIt 2
 ├── include/
