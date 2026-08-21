@@ -12,7 +12,7 @@ For performing the task, the robot uses **Cartesian** trajectories except for th
 
 -------------------------------------------------------------------------------
 # 🎥 Demo videos
-
+front view:
 
 
 
