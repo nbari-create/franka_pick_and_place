@@ -32,8 +32,11 @@ https://github.com/user-attachments/assets/b15bcc96-acbc-4f19-9b66-431f17fcef0a
 
 **perception_node.hpp** (C++):The node grabs RGB images and point clouds from the camera to detect a cube, an obstacle, and a target based on their color. Using HSV segmentation and TF2 transformations, it converts the 2D image centroids into 3D coordinates in the world space. Finally, it publishes these positions and monitors their stability for about a second and a half before confirming they are ready to use.
 
-**main_node.cpp** (C++): The program initializes a ROS 2 node for visual perception and sets up MoveIt 2 to handle the kinematic control of the Franka FR3 robotic arm. After a short stabilization wait, the system stays on standby until the perception detects a cube, a target, and an obstacle. Once the coordinates of these elements are acquired and saved, the pick-and-place routine starts, and at the end of the operation, nodes and threads are cleanly shut down.
+**main.cpp** (C++): System entry point. Initializes ROS 2 and MoveIt 2 components, starts the execution threads, waits for the perception node to confirm the stable position of the cube, obstacle, and target, and finally launches the nine-stage pick-and-place sequence. At the end of the operation, it also handles the clean shutdown of nodes and threads.
 
+**myworkcell_node.cpp** (C++): Node for managing calls to the ROS 2 services of the workcell. Acts as a bridge between the task controller (main.cpp) and the services exposed by the perception system, encapsulating localization requests (via vision_node) into a reusable service interface for the rest of the pipeline.
+
+**vision_node.cpp** (C++): Exposes a ROS 2 Service Server ('Localizer') that provides the poses of detected objects via TF2 transformations, making the stable 3D coordinates of the cube, obstacle, and target available to the task controller.
 
 ----------------------------------------------------------------------------------
 # Structure of the code
