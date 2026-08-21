@@ -40,7 +40,7 @@ https://github.com/user-attachments/assets/b15bcc96-acbc-4f19-9b66-431f17fcef0a
 
 ----------------------------------------------------------------------------------
 # Structure of the code
-
+```
 franka_pick_and_place/
 
 ├── config/
@@ -63,7 +63,7 @@ franka_pick_and_place/
 ├── srv/                            # Definizioni dei servizi ROS 2 personalizzati (.srv)
 ├── CMakeLists.txt                  # Regole di compilazione CMake
 ├── package.xml                     # Dipendenze e metadati del pacchetto ROS 2
-└── LICENSE
+└── LICENSE```
 
 
 # Run 
