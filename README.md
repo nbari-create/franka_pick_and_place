@@ -43,21 +43,21 @@ https://github.com/user-attachments/assets/b15bcc96-acbc-4f19-9b66-431f17fcef0a
 ```
 franka_pick_and_place/
 ├── config/
-│   └── moveit_controllers.yaml     # Configurazione dei controller di traiettoria MoveIt 2
+│   └── moveit_controllers.yaml     # Configuring MoveIt 2 Trajectory Controllers
 ├── include/
 │   └── myworkcell_core/
-│       └── perception_node.hpp     # Classe PerceptionNode, struct Object3D, soglie HSV
+│       └── perception_node.hpp     # PerceptionNode class, Object3D struct, HSV thresholds
 ├── launch/
-│   └── workcell.launch.py          # Avvio di simulazione, percezione e controllo in un unico comando
+│   └── workcell.launch.py          # Simulation startup, perception, and control all in one command
 ├── src/
-│   ├── main.cpp                    # Entry point: inizializzazione nodi, threading, avvio missione
-│   ├── moveit_node.cpp             # Logica pick & place: MoveGroup, planning cartesiano, gripper
-│   ├── perception_node.cpp         # Segmentazione HSV, estrazione da point cloud, trasformazioni TF2
-│   ├── myworkcell_node.cpp         # Gestione delle chiamate ai servizi ROS 2 della workcell
-│   └── vision_node.cpp             # Nodo di localizzazione (service server) esposto al task controller
-├── srv/                            # Definizioni dei servizi ROS 2 personalizzati (.srv)
-├── CMakeLists.txt                  # Regole di compilazione CMake
-├── package.xml                     # Dipendenze e metadati del pacchetto ROS 2
+│   ├── main.cpp                    # Entry point: node initialization, threading, mission start
+│   ├── moveit_node.cpp             # Logica pick & place: MoveGroup, Cartesian planning, gripper
+│   ├── perception_node.cpp         # HSV segmentation, extraction from point cloud, TF2 transformations
+│   ├── myworkcell_node.cpp         # Handling calls to the ROS 2 services of the workcell
+│   └── vision_node.cpp             # Localization node (service server) exposed to the task controller
+├── srv/                            # Definitions of custom ROS 2 services (.srv)
+├── CMakeLists.txt                  # CMake Build Rules
+├── package.xml                     # Dependencies and metadata of the ROS 2 package
 └── LICENSE
 ```
 
