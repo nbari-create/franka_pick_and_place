@@ -87,12 +87,9 @@ source ~/ros2_ws/install/setup.bash```
 
 # Dependencis 
 ROS 2 Humble
-
-MoveIt 2
-
-Gazebo (Ignition)
-
-The Franka FR3 simulation base environment (```franka_description```, ```franka_gazebo_bringup```, ```franka_fr3_moveit_config, controllers```). These are not part of this repository; the two packages here depend on them but do not modify them.
+<br>MoveIt 2
+<br>Gazebo (Ignition)
+<br>The Franka FR3 simulation base environment (```franka_description```, ```franka_gazebo_bringup```, ```franka_fr3_moveit_config, controllers```). These are not part of this repository; the two packages here depend on them but do not modify them.
 
 
 
