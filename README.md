@@ -70,6 +70,11 @@ franka_pick_and_place/
  # Build 
 BUILD: ```colcon build --packages-select franka_gazebo_bringup --symlink-install source ~/ros2_ws/install/setup.bash```
 
+# Results
+20 independent trials were performed to evaluate the pick-and-place pipeline. The system achieved an 80% overall success rate (16/20 trials). Failures were mainly due to unsuccessful grasping (15%) and one collision caused by an incorrect trajectory (5%).
+The placement phase achieved 100% success whenever the robot reached it, demonstrating accurate and repeatable final positioning.
+Overall, the results confirm good system reliability, while highlighting grasping and collision-free trajectory planning as the main areas for improvement.
+
 # Dependencis 
 ROS 2 Humble
 <br>MoveIt 2
