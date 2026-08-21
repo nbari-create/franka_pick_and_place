@@ -72,7 +72,7 @@ ROS2_project_franka/
        
         ├── srv/                    # Definizioni dei servizi ROS 2 personalizzati (.srv)
         
-        ├── CMakeLists.txt          # Regole di compilazione CMake<br>└── package.xml             # Dipendenze e metadati del pacchetto ROS 2
+        ├── CMakeLists.txt          # Regole di compilazione CMake <br>└── package.xml             # Dipendenze e metadati del pacchetto ROS 2
 
 
 # Run 
@@ -80,8 +80,7 @@ ROS2_project_franka/
  RUN: ```ros2 launch myworkcell_core workcell.launch.py```
 
  # Build 
-BUILD: ```colcon build --packages-select franka_gazebo_bringup --symlink-install
-<br>source ~/ros2_ws/install/setup.bash```
+BUILD: ```colcon build --packages-select franka_gazebo_bringup --symlink-install <br>source ~/ros2_ws/install/setup.bash```
 
 # Dependencis 
 ROS 2 Humble
