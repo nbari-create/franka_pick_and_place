@@ -68,7 +68,8 @@ franka_pick_and_place/
  RUN: ```ros2 launch myworkcell_core workcell.launch.py```
 
  # Build 
-BUILD: ```colcon build --packages-select franka_gazebo_bringup --symlink-install source ~/ros2_ws/install/setup.bash```
+BUILD: ```colcon build --packages-select myworkcell_core --symlink-install
+source ~/ros2_ws/install/setup.bash```
 
 # Results
 20 independent trials were performed to evaluate the pick-and-place pipeline. The system achieved an 80% overall success rate (16/20 trials). Failures were mainly due to unsuccessful grasping (15%) and one collision caused by an incorrect trajectory (5%).
