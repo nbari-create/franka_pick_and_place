@@ -26,6 +26,7 @@ above view:
 ***vision_node.cpp (C++)***: Exposes a ROS 2 Service Server ('Localizer') that provides the poses of detected objects via TF2 transformations, making the stable 3D coordinates of the cube, obstacle, and target available to the task controller.
 
  # Structure of the code
+```
 franka_pick_and_place/
 ├── config/
 │   └── moveit_controllers.yaml     # Configuring MoveIt 2 Trajectory Controllers
@@ -44,12 +45,12 @@ franka_pick_and_place/
 ├── CMakeLists.txt                  # CMake Build Rules
 ├── package.xml                     # Dependencies and metadata of the ROS 2 package
 └── LICENSE
-
+```
 # Run
-RUN: ros2 launch myworkcell_core workcell.launch.py
+RUN: ```ros2 launch myworkcell_core workcell.launch.py```
 
 # Build
-BUILD: colcon build --packages-select myworkcell_core --symlink-install source ~/ros2_ws/install/setup.bash
+BUILD: ```colcon build --packages-select myworkcell_core --symlink-install source ~/ros2_ws/install/setup.bash```
 
 # Results
 20 independent trials were performed to evaluate the pick-and-place pipeline. The system achieved an 80% overall success rate (16/20 trials). Failures were mainly due to unsuccessful grasping (15%) and one collision caused by an incorrect trajectory (5%). The placement phase achieved 100% success whenever the robot reached it, demonstrating accurate and repeatable final positioning. Overall, the results confirm good system reliability, while highlighting grasping and collision-free trajectory planning as the main areas for improvement.
