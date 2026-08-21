@@ -37,7 +37,8 @@ https://github.com/user-attachments/assets/57eb5b07-b223-4eed-95e6-ebdc5d07316f
 ROS2_project_franka/
 ├── docker/                         
 ├── images/                        
-└── src/                            
+└── src/      
+
     ├── fake_ar_publisher/          # Pacchetto per la simulazione/pubblicazione di marker AR 
     └── myworkcell_core/            # Pacchetto principale di controllo della cella di lavoro
         ├── config/                 # Parametri di configurazione dei moduli
